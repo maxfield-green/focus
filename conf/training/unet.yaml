@@ -1,0 +1,35 @@
+# Paths
+log_dir: "./tb_runs"
+model_out: "./weights/att_unet.pt"
+
+# Data
+channels_in: 6 # e.g., [T, RH, U, V, P, Z] from GFS
+channels_out: 3 # e.g., HRRR [T2m, U10, V10]
+width_factors: [64, 128, 256, 512]
+
+# Optim
+lr: 3.0e-4
+dropout: 0.1
+
+# Training
+epochs: 100
+early_stop_patience: 10
+batch_size: 4
+
+# Distributed options
+distributed:        true          # false ➜ ordinary single‑GPU
+backend:            "nccl"        # "nccl" (CUDA) | "gloo" (CPU)
+sync_batchnorm:     true          # convert BatchNorm → SyncBatchNorm
+find_unused_params: false         # set true only if you really need it
+
+# Data
+train_nc: "./gfs_to_hrrr_train.nc"
+val_nc:   "./gfs_to_hrrr_val.nc"
+batch_size: 4         # whatever fits per‑GPU
+
+
+# Normalisation
+# -----------------------------------------------------------------
+stats_file: "./gfs_stats.yaml"      # or .json or .npy – see options below
+apply_normalisation: true           # flip to false to disable
+# -----------------------------------------------------------------
